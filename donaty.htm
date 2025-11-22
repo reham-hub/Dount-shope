@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>متجر الدونات</title>
+    <style>
+        :root {
+            --bg: #fdf6f0;
+            --white: #ffffff;
+            --brown: #6b4226;
+            --pink: #ff5a8f;
+            --purple: #7a4ebf;
+            --green: #6bbf59;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Tajawal", sans-serif;
+            background: linear-gradient(180deg, var(--bg), #fce4ec);
+            color: #333;
+        }
+
+        section {
+            max-width: 1000px;
+            margin: auto;
+            padding: 40px 20px;
+        }
+
+        h1 {
+            color: var(--pink);
+            margin-bottom: 10px
+        }
+
+        h2 {
+            color: var(--purple);
+            margin-bottom: 20px
+        }
+
+        /* صفحة الغلاف */
+        .cover {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg), #fce4ec);
+        }
+
+        .cover h1 {
+            font-size: 3rem;
+            color: var(--pink);
+        }
+
+        .cover p {
+            font-size: 1.2rem;
+            color: var(--brown);
+            margin-bottom: 30px;
+        }
+
+        .cover button {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--pink), var(--purple));
+            color: var(--white);
+            font-weight: 900;
+            cursor: pointer;
+            transition: transform .3s ease;
+        }
+
+        .cover button:hover {
+            transform: scale(1.1);
+        }
+
+        /* المنتجات */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .item {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .thumb {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: auto;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .4s ease;
+        }
+
+        .item:hover .thumb img {
+            transform: scale(1.1);
+        }
+
+        .title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--brown)
+        }
+
+        .desc {
+            font-size: .9rem;
+            color: #666
+        }
+
+        .price {
+            margin-top: 8px;
+            font-weight: 700;
+            color: var(--pink)
+        }
+
+        .controls {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            gap: 10px
+        }
+
+        .qty {
+            width: 60px;
+            padding: 6px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            text-align: center
+        }
+
+        .check {
+            width: 20px;
+            height: 20px
+        }
+
+        /* قسم العروض */
+        .offers {
+            background: #fff3f8;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .offers ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: var(--brown);
+            font-weight: 600
+        }
+
+        .offers li {
+            margin-bottom: 10px
+        }
+
+        /* نموذج الطلب */
+        form {
+            background: #fff;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1)
+        }
+
+        .field {
+            margin-bottom: 16px
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 700;
+            color: var(--purple)
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            background: #fafafa;
+            color: #333;
+        }
+
+        textarea {
+            min-height: 80px
+        }
+
+        .submit {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--pink), var(--purple));
+            color: var(--white);
+            font-weight: 900;
+            cursor: pointer;
+            transition: filter .2s ease;
+        }
+
+        .submit:hover {
+            filter: brightness(1.1)
+        }
+
+        /* صفحة التأكيد */
+        .confirmation {
+            display: none;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .confirmation h1 {
+            font-size: 2.5rem;
+            color: var(--green);
+        }
+
+        .confirmation p {
+            font-size: 1.2rem;
+            color: var(--brown);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- صفحة الغلاف -->
+    <section class="cover" id="cover">
+        <h1>🍩 مرحبا بك في متجرنا</h1>
+        <p>أشهى أنواع الدونات بنكهات مبتكرة وتجربة لا تُنسى</p>
+        <button onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">
+            ابدأ التسوق الآن
+        </button>
+    </section>
+
+    <!-- المنتجات -->
+    <section id="products">
+        <h1>قائمة الدونات</h1>
+        <h2>اختر نكهاتك المفضلة</h2>
+        <div class="grid">
+            <!-- دونات فراولة -->
+            <div class="item">
+                <div class="thumb">
+                    <img src="C:\Users\ا\Desktop\pink-doughnuts.jpg" alt="دونات فراولة">
+                </div>
+                <div class="title">فراولة وردية</div>
+                <div class="desc">طبقة فروستينغ بالفراولة</div>
+                <div class="price">850 ريال/حبة</div>
+                <div class="controls">
+                    <input class="check" type="checkbox">
+                    <input class="qty" type="number" min="1" value="1">
+                </div>
+            </div>
+            <!-- دونات كراميل -->
+            <div class="item">
+                <div class="thumb">
+                    <img src="C:\Users\ا\Desktop\donut-caramel-glaze-chopped-nuts-600nw-2624624839.jpg" alt="دونات كراميل">
+                </div>
+                <div class="title">كراميل بني</div>
+                <div class="desc">نكهة الكراميل المالح</div>
+                <div class="price">950 ريال/حبة</div>
+                <div class="controls">
+                    <input class="check" type="checkbox">
+                    <input class="qty" type="number" min="1" value="1">
+                </div>
+            </div>
+            <!-- دونات فستق -->
+            <div class="item">
+                <div class="thumb">
+                    <img src="C:\Users\ا\Desktop\pngtree-delectable-green-glazed-donut-with-pistachios-on-a-grey-background-picture-image_13441699.jpg" alt="دونات فستق">
+                </div>
+                <div class="title">فستق مهروس</div>
+                <div class="desc">نكهة مكسرات مع رشات فستق</div>
+                <div class="price">1000 ريال/حبة</div>
+                <div class="controls">
+                    <input class="check" type="checkbox">
+                    <input class="qty" type="number" min="1" value="1">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- العروض + نموذج الطلب -->
+    <section id="offers">
+        <h1>العروض الخاصة</h1>
+        <h2>
+                <div class="offers">
+                    <ul>
+                        <li>🍩 خصم 10% عند شراء 12 حبة أو أكثر</li>
+                        <li>🎁 باقة العائلة: 20 حبة متنوعة + مشروب مجاني</li>
+                        <li>🌟 عرض نهاية الأسبوع: دونات الفستق بسعر 800 ريال فقط</li>
+                    </ul>
+                </div>
+                
+                <h1>نموذج الطلب</h1>
+                <h2>أدخل بياناتك</h2>
+                <form id="orderForm">
+                    <div class="field">
+                        <label for="name">الاسم الكامل</label>
+                        <input id="name" type="text" required>
+                    </div>
+                    <div class="field">
+                        <label for="phone">رقم الجوال</label>
+                        <input id="phone" type="tel" required>
+                    </div>
+                    <div class="field">
+                        <label for="method">طريقة الاستلام</label>
+                        <select id="method" required>
+                            <option value="">اختر</option>
+                            <option value="pickup">استلام من الفرع</option>
+                            <option value="delivery">توصيل</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="address">العنوان</label>
+                        <textarea id="address"></textarea>
+                    </div>
+                    <button class="submit" type="submit">تأكيد الطلب</button>
+                </form>
+                </section>
+                
+                <!-- صفحة التأكيد -->
+                <section class="confirmation" id="confirmation">
+                    <h1>✅ تم تأكيد طلبك بنجاح</h1>
+                    <p>شكراً لاختيارك متجرنا! سنتواصل معك قريباً لإتمام التفاصيل.</p>
+                    <button onclick="document.getElementById('cover').scrollIntoView({behavior:'smooth'})">
+                        العودة للصفحة الرئيسية
+                    </button>
+                </section>
+                
+                <script>
+                    // عند إرسال النموذج، نخفيه ونظهر صفحة التأكيد
+                    document.getElementById("orderForm").addEventListener("submit", function (e) {
+                        e.preventDefault();
+                        document.getElementById("offers").style.display = "none";
+                        document.getElementById("products").style.display = "none";
+                        document.getElementById("confirmation").style.display = "block";
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+                </script>
+                
+                </body>
+                
+                </html>
